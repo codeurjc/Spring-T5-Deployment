@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class TablonController {
@@ -25,7 +26,7 @@ public class TablonController {
 		repository.save(new Anuncio("Juan", "Hola caracola", "XXXX"));
 	}
 
-	@RequestMapping("/")
+	@GetMapping("/")
 	public String tablon(Model model, Pageable page) {
 
 		model.addAttribute("anuncios", repository.findAll(page));
@@ -33,7 +34,7 @@ public class TablonController {
 		return "tablon";
 	}
 
-	@RequestMapping("/anuncio/nuevo")
+	@PostMapping("/anuncio/nuevo")
 	public String nuevoAnuncio(Model model, Anuncio anuncio) {
 
 		repository.save(anuncio);
@@ -42,10 +43,10 @@ public class TablonController {
 
 	}
 
-	@RequestMapping("/anuncio/{id}")
+	@GetMapping("/anuncio/{id}")
 	public String verAnuncio(Model model, @PathVariable long id) {
 		
-		Anuncio anuncio = repository.findOne(id);
+		Anuncio anuncio = repository.getOne(id);
 
 		model.addAttribute("anuncio", anuncio);
 
